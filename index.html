@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cinzel',serif;}
+body{height:100vh;overflow:hidden;}
+.screen{
+  position:absolute;
+  width:100%;
+  height:100vh;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  padding:20px;
+}
+.active{display:flex;}
+
+#scene1{background:linear-gradient(135deg,#5a0000,#b8860b);color:white;}
+.black{background:black;color:white;}
+
+button{
+  margin-top:35px;
+  padding:18px 40px;
+  font-size:24px;
+  border:3px solid gold;
+  background:transparent;
+  color:gold;
+  cursor:pointer;
+  transition:0.4s;
+}
+button:hover{background:gold;color:black;transform:scale(1.1);}
+
+.fadeIn{animation:fadeIn 2s ease forwards;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* Calendar */
+.calendar-container{
+  position:relative;
+  width:260px;
+  height:320px;
+}
+.spiral{
+  width:100%;
+  height:40px;
+  background:#444;
+  border-radius:10px 10px 0 0;
+}
+.calendar-page{
+  width:100%;
+  height:280px;
+  background:white;
+  color:black;
+  font-size:120px;
+  font-weight:bold;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:0 0 12px 12px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.6);
+  position:absolute;
+  top:40px;
+  transform-origin:top;
+}
+.fall{animation:tearFall 1s forwards;}
+@keyframes tearFall{
+  0%{transform:rotateX(0);opacity:1;}
+  40%{transform:rotateX(-120deg);}
+  60%{transform:translateY(50px);}
+  100%{transform:translateY(600px);opacity:0;}
+}
+.zoom{animation:zoomIn 1s forwards;}
+@keyframes zoomIn{
+  from{transform:scale(1);}
+  to{transform:scale(1.3);}
+}
+
+/* Heart */
+.heart{
+  font-size:180px;
+  animation:beat 1s infinite;
+}
+@keyframes beat{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.2);}
+  100%{transform:scale(1);}
+}
+
+h1{font-size:60px;}
+h2{font-size:42px;}
+p{font-size:32px;}
+
+.divine{
+  font-size:70px;
+  color:#00ccff;
+  text-shadow:0 0 25px #00ccff,0 0 50px #00ccff;
+  animation:glow 2s infinite alternate;
+}
+@keyframes glow{
+  from{opacity:0.7;}
+  to{opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Scene 1 -->
+<div class="screen active" id="scene1">
+  <h1>Something Royal Awaits You ✨</h1>
+  <button onclick="nextScene(2)">Click here Guddi ❤️</button>
+</div>
+
+<!-- Scene 2 -->
+<div class="screen black" id="scene2">
+  <h1 class="fadeIn">The Most Awaited Day Is Almost Here...</h1>
+</div>
+
+<!-- Scene 3 Calendar -->
+<div class="screen black" id="scene3">
+  <div class="calendar-container">
+    <div class="spiral"></div>
+    <div class="calendar-page" id="calendarPage">10</div>
+  </div>
+</div>
+
+<!-- Scene 4 Heart -->
+<div class="screen black" id="scene4">
+  <div class="heart">❤️</div>
+  <h2>I wanted to say something Putti...</h2>
+  <button onclick="nextScene(5)">Continue</button>
+</div>
+
+<!-- Scene 5 Question -->
+<div class="screen black" id="scene5">
+  <h2>Do you know what's special today?</h2>
+  <button onclick="answer(true)">Yes</button>
+  <button onclick="answer(false)">No</button>
+</div>
+
+<!-- Scene 6 Birthday Text -->
+<div class="screen black" id="scene6">
+  <h2 id="answerText"></h2>
+  <button onclick="nextScene(7)">So what..??</button>
+</div>
+
+<!-- Scene 7 Hug GIF -->
+<div class="screen black" id="scene7">
+  <h2>Sending you a warm hug 🤗</h2>
+  <img src="Ammu.GIF" width="300">
+</div>
+
+<!-- Scene 8 Final Wish -->
+<div class="screen black" id="scene8">
+  <h1>Wish you a very happiest birthday 🎂</h1>
+  <h1>Shree Lakshmi ❤️</h1>
+  <p style="margin-top:30px;">I want to say something...</p>
+  <button onclick="nextScene(9)">Click</button>
+</div>
+
+<!-- Scene 9 Blessing -->
+<div class="screen black" id="scene9">
+  <h1 class="divine">🕉 Om Namah Shivaya 🕉</h1>
+  <h2 style="margin-top:40px;">Let my Lord Shiva guide you in every situation 🙏</h2>
+  <h2>Happy Mahashivratri 🌙✨</h2>
+  <h2 style="margin-top:30px;">I love you dear Ammu ❤️</h2>
+</div>
+
+<script>
+
+function nextScene(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('scene'+n).classList.add('active');
+
+  if(n===2){
+    setTimeout(()=>nextScene(3),3000);
+  }
+  if(n===3){
+    startCalendar();
+  }
+  if(n===7){
+    setTimeout(()=>nextScene(8),5000);
+  }
+}
+
+function startCalendar(){
+  let dates=[10,11,12,13,14,15];
+  let i=0;
+  let page=document.getElementById("calendarPage");
+
+  function tear(){
+    if(dates[i]===15){
+      page.innerText=15;
+      page.classList.add("zoom");
+      setTimeout(()=>nextScene(4),1500);
+      return;
+    }
+
+    page.innerText=dates[i];
+    page.classList.add("fall");
+
+    setTimeout(()=>{
+      page.classList.remove("fall");
+      page.style.opacity=1;
+      i++;
+      tear();
+    },1000);
+  }
+
+  tear();
+}
+
+function answer(isYes){
+  nextScene(6);
+  let text=document.getElementById('answerText');
+  if(isYes){
+    text.innerText="Exactly! Today is the happiest day because it's my sister's Birthday 🎂❤️";
+  }else{
+    text.innerText="Oh really? Then let me remind you... Today is the happiest day because it's my sister's Birthday 🎉❤️";
+  }
+}
+
+</script>
+
+</body>
+</html>
